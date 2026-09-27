@@ -1,0 +1,19 @@
+[
+  {
+    "label": "Debug STM32 (probe-rs)",
+    "adapter": "probe-rs",
+    "request": "launch",
+    "cwd": "${workspaceFolder}",
+    "program": "${workspaceFolder}/build/stm32_app.elf",
+    "chip": "STM32F401RETx",
+    "core": "main",
+    "protocol": "swd",
+    "speed": 4000,
+    "connectUnderReset": true,
+    "haltAfterReset": true,
+    "flashing": {
+      "enabled": true,
+      "haltAfterReset": true
+    }
+  }
+]

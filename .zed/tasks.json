@@ -1,8 +1,104 @@
 [
   {
+    "label": "CMake Configure (Bare-Metal)",
+    "command": "cmake",
+    "args": [
+      "-B",
+      "build",
+      "-G",
+      "Ninja",
+      "-DCMAKE_TOOLCHAIN_FILE=cmake/stm32_gcc.cmake",
+      "-DSTM32_FAMILY=F4",
+      "-DSTM32_CHIP=STM32F401RETx",
+      "-DFLASH_SIZE=512K",
+      "-DRAM_SIZE=96K",
+      "-DRAM_ORIGIN=0x20000000",
+      "-DUSE_HAL=OFF"
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "CMake Configure (HAL)",
+    "command": "cmake",
+    "args": [
+      "-B",
+      "build",
+      "-G",
+      "Ninja",
+      "-DCMAKE_TOOLCHAIN_FILE=cmake/stm32_gcc.cmake",
+      "-DSTM32_FAMILY=F4",
+      "-DSTM32_CHIP=STM32F401RETx",
+      "-DFLASH_SIZE=512K",
+      "-DRAM_SIZE=96K",
+      "-DRAM_ORIGIN=0x20000000",
+      "-DUSE_HAL=ON"
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "Compile Firmware",
+    "command": "cmake",
+    "args": [
+      "--build",
+      "build"
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "Flash Board (probe-rs)",
+    "command": "probe-rs",
+    "args": [
+      "run",
+      "--chip",
+      "STM32F401RETx",
+      "build/stm32_app.elf"
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "Clean Build",
+    "command": "cmake",
+    "args": [
+      "--build",
+      "build",
+      "--target",
+      "clean"
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "Memory Usage (Size Report)",
+    "command": "arm-none-eabi-size",
+    "args": [
+      "--format=berkeley",
+      "build/stm32_app.elf"
+    ],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "always",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
     "label": "STM32: Toolchain Doctor",
     "command": "stm32-tools-cli",
-    "args": ["doctor"],
+    "args": [
+      "doctor"
+    ],
     "cwd": "$ZED_WORKTREE_ROOT",
     "reveal": "always",
     "use_new_terminal": false,
@@ -11,52 +107,9 @@
   {
     "label": "STM32: Project Info",
     "command": "stm32-tools-cli",
-    "args": ["info"],
-    "cwd": "$ZED_WORKTREE_ROOT",
-    "reveal": "always",
-    "use_new_terminal": false,
-    "allow_concurrent_runs": false
-  },
-  {
-    "label": "STM32: Build (Debug)",
-    "command": "stm32-tools-cli",
-    "args": ["build"],
-    "cwd": "$ZED_WORKTREE_ROOT",
-    "reveal": "always",
-    "use_new_terminal": false,
-    "allow_concurrent_runs": false
-  },
-  {
-    "label": "STM32: Build (Release)",
-    "command": "stm32-tools-cli",
-    "args": ["build", "--release"],
-    "cwd": "$ZED_WORKTREE_ROOT",
-    "reveal": "always",
-    "use_new_terminal": false,
-    "allow_concurrent_runs": false
-  },
-  {
-    "label": "STM32: Clean",
-    "command": "stm32-tools-cli",
-    "args": ["clean"],
-    "cwd": "$ZED_WORKTREE_ROOT",
-    "reveal": "always",
-    "use_new_terminal": false,
-    "allow_concurrent_runs": false
-  },
-  {
-    "label": "STM32: Memory Usage (Size Report)",
-    "command": "stm32-tools-cli",
-    "args": ["size"],
-    "cwd": "$ZED_WORKTREE_ROOT",
-    "reveal": "always",
-    "use_new_terminal": false,
-    "allow_concurrent_runs": false
-  },
-  {
-    "label": "STM32: Flash & Run",
-    "command": "stm32-tools-cli",
-    "args": ["flash"],
+    "args": [
+      "info"
+    ],
     "cwd": "$ZED_WORKTREE_ROOT",
     "reveal": "always",
     "use_new_terminal": false,
@@ -65,16 +118,9 @@
   {
     "label": "STM32: Open STM32CubeMX GUI",
     "command": "stm32-tools-cli",
-    "args": ["cubemx"],
-    "cwd": "$ZED_WORKTREE_ROOT",
-    "reveal": "always",
-    "use_new_terminal": false,
-    "allow_concurrent_runs": false
-  },
-  {
-    "label": "STM32: Generate Code (CubeMX Headless)",
-    "command": "stm32-tools-cli",
-    "args": ["cubemx", "--generate"],
+    "args": [
+      "cubemx"
+    ],
     "cwd": "$ZED_WORKTREE_ROOT",
     "reveal": "always",
     "use_new_terminal": false,
@@ -83,7 +129,9 @@
   {
     "label": "STM32: List Supported Devices",
     "command": "stm32-tools-cli",
-    "args": ["devices"],
+    "args": [
+      "devices"
+    ],
     "cwd": "$ZED_WORKTREE_ROOT",
     "reveal": "always",
     "use_new_terminal": false,
