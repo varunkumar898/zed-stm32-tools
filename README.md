@@ -1,6 +1,6 @@
 # STM32 Tools for Zed Editor
 
-[![CI](https://github.com/cherry/zed-stm32-tools/actions/workflows/ci.yml/badge.svg)](https://github.com/cherry/zed-stm32-tools/actions/workflows/ci.yml)
+[![CI](https://github.com/varunkumar898/zed-stm32-tools/actions/workflows/ci.yml/badge.svg)](https://github.com/varunkumar898/zed-stm32-tools/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 A production-quality **STM32 embedded development environment for the Zed editor**, inspired by the workflow of **STM32CubeIDE**, but implemented natively using Zed's extension architecture, WebAssembly component runtime (`wasm32-wasip2`), Zed Tasks, Debug Adapter Protocol (DAP), and standard open-source embedded toolchains.
@@ -97,7 +97,7 @@ Download from [st.com/stm32cubemx](https://www.st.com/en/development-tools/stm32
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/cherry/zed-stm32-tools.git
+   git clone https://github.com/varunkumar898/zed-stm32-tools.git
    cd zed-stm32-tools
    ```
 2. Build the WebAssembly extension module:

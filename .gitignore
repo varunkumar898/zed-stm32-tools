@@ -10,6 +10,8 @@ build/
 *.map
 *.o
 *.d
+*.wasm
+extension.wasm
 
 # Editor temporary files
 .vscode/

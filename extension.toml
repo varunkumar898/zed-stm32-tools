@@ -2,9 +2,9 @@ id = "stm32-tools"
 name = "STM32 Tools"
 version = "0.1.0"
 schema_version = 1
-authors = ["Cherry <cherry@example.com>"]
+authors = ["varunkumar898"]
 description = "STM32 embedded development environment for Zed: project creation, CubeMX workflow, toolchain diagnostics, build tasks, flashing, and debugging."
-repository = "https://github.com/cherry/zed-stm32-tools"
+repository = "https://github.com/varunkumar898/zed-stm32-tools"
 
 snippets = [
   "./snippets/c.json",
@@ -12,7 +12,7 @@ snippets = [
   "./snippets/snippets.json",
 ]
 
-[language_servers.clangd]
+[language_servers.stm32-clangd]
 name = "STM32 clangd"
 languages = ["C", "C++"]
 

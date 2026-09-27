@@ -14,7 +14,7 @@ Before installing the extension, ensure you have:
 ### Method A: Install as Dev Extension (Local Development)
 1. Clone or download this repository:
    ```bash
-   git clone https://github.com/cherry/zed-stm32-tools.git
+   git clone https://github.com/varunkumar898/zed-stm32-tools.git
    cd zed-stm32-tools
    ```
 2. Build the WebAssembly extension component:
