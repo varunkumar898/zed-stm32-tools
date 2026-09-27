@@ -14,6 +14,7 @@ echo ""
 # Detect Linux Distribution
 DISTRO="unknown"
 if [ -f /etc/os-release ]; then
+    # shellcheck source=/dev/null
     . /etc/os-release
     DISTRO="$ID"
 fi

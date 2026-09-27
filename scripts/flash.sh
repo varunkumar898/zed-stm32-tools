@@ -12,7 +12,8 @@ if ! command -v STM32_Programmer_CLI >/dev/null 2>&1; then
                      /opt/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin/STM32_Programmer_CLI \
                      /opt/st/stm32cubeprogrammer/bin/STM32_Programmer_CLI; do
         if [ -x "$candidate" ]; then
-            export PATH="$(dirname "$candidate"):$PATH"
+            PATH="$(dirname "$candidate"):$PATH"
+            export PATH
             break
         fi
     done
