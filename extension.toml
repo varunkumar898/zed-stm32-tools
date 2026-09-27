@@ -12,6 +12,10 @@ snippets = [
   "./snippets/snippets.json",
 ]
 
+[language_servers.clangd]
+name = "STM32 clangd"
+languages = ["C", "C++"]
+
 [slash_commands.stm32-doctor]
 description = "Check STM32 toolchain and software dependencies"
 tooltip_text = "Run diagnostic check for Arm GCC, CubeMX, CubeProgrammer, OpenOCD, probe-rs, and build tools"
