@@ -1,0 +1,72 @@
+{
+  "STM32 Bare-Metal Register LED Toggle": {
+    "prefix": "stm32_reg_toggle",
+    "body": [
+      "/* Enable GPIO Port Clock */",
+      "RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;",
+      "/* Configure Pin as General Purpose Output */",
+      "GPIOA->MODER &= ~(3U << (5 * 2));",
+      "GPIOA->MODER |=  (1U << (5 * 2));",
+      "/* Toggle Pin in loop */",
+      "GPIOA->ODR ^= (1U << 5);$0"
+    ],
+    "description": "Direct bare-metal register manipulation for GPIO output toggle (e.g. PA5 LED on Nucleo)"
+  },
+  "STM32 User Code Guard Block": {
+    "prefix": "stm32_user_code",
+    "body": [
+      "/* USER CODE BEGIN ${1:1} */",
+      "$0",
+      "/* USER CODE END ${1:1} */"
+    ],
+    "description": "Insert CubeMX protected User Code block"
+  },
+  "STM32 System Clock 84MHz HSE": {
+    "prefix": "stm32_clk_84mhz",
+    "body": [
+      "void SystemClock_Config(void) {",
+      "    RCC_OscInitTypeDef RCC_OscInitStruct = {0};",
+      "    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};",
+      "",
+      "    __HAL_RCC_PWR_CLK_ENABLE();",
+      "    __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);",
+      "",
+      "    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;",
+      "    RCC_OscInitStruct.HSEState = RCC_HSE_ON;",
+      "    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;",
+      "    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;",
+      "    RCC_OscInitStruct.PLL.PLLM = 8;",
+      "    RCC_OscInitStruct.PLL.PLLN = 336;",
+      "    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;",
+      "    RCC_OscInitStruct.PLL.PLLQ = 7;",
+      "    HAL_RCC_OscConfig(&RCC_OscInitStruct);",
+      "",
+      "    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK",
+      "                                | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;",
+      "    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;",
+      "    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;",
+      "    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;",
+      "    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;",
+      "    HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2);",
+      "}$0"
+    ],
+    "description": "Configure STM32F4 System Clock to 84MHz from 8MHz HSE Crystal"
+  },
+  "STM32 HardFault Handler Diagnostics": {
+    "prefix": "stm32_hardfault_handler",
+    "body": [
+      "void HardFault_Handler(void) {",
+      "    __asm volatile (",
+      "        \" tst lr, #4            \\n\"",
+      "        \" ite eq                 \\n\"",
+      "        \" mrseq r0, msp          \\n\"",
+      "        \" mrsne r0, psp          \\n\"",
+      "        \" ldr r1, [r0, #24]      \\n\"",
+      "        \" bkpt #0                \\n\"",
+      "    );",
+      "    while (1) {}",
+      "}$0"
+    ],
+    "description": "Detailed Cortex-M HardFault exception handler that captures fault PC into R1 and halts in debugger"
+  }
+}

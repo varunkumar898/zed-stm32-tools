@@ -1,0 +1,23 @@
+# Rust target directory
+/target/
+Cargo.lock
+
+# Build artifacts
+build/
+*.bin
+*.elf
+*.hex
+*.map
+*.o
+*.d
+
+# Editor temporary files
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# Local test outputs
+scratch/
+test_output/

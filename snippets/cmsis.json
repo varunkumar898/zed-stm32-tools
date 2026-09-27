@@ -1,0 +1,73 @@
+{
+  "CMSIS NVIC Enable Interrupt": {
+    "prefix": "cmsis_nvic_enable",
+    "body": [
+      "NVIC_SetPriority(${1:USART2_IRQn}, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), ${2:0}, ${3:0}));",
+      "NVIC_EnableIRQ(${1:USART2_IRQn});$0"
+    ],
+    "description": "Configure priority and enable an IRQ via CMSIS NVIC"
+  },
+  "CMSIS NVIC Disable Interrupt": {
+    "prefix": "cmsis_nvic_disable",
+    "body": [
+      "NVIC_DisableIRQ(${1:USART2_IRQn});",
+      "NVIC_ClearPendingIRQ(${1:USART2_IRQn});$0"
+    ],
+    "description": "Disable and clear pending state for an IRQ via CMSIS NVIC"
+  },
+  "CMSIS Register Set Bit": {
+    "prefix": "cmsis_set_bit",
+    "body": [
+      "SET_BIT(${1:USART2}->${2:CR1}, ${3:USART_CR1_UE});$0"
+    ],
+    "description": "Set a specific bit in a peripheral register using CMSIS macro"
+  },
+  "CMSIS Register Clear Bit": {
+    "prefix": "cmsis_clear_bit",
+    "body": [
+      "CLEAR_BIT(${1:USART2}->${2:CR1}, ${3:USART_CR1_UE});$0"
+    ],
+    "description": "Clear a specific bit in a peripheral register using CMSIS macro"
+  },
+  "CMSIS Register Read Bit": {
+    "prefix": "cmsis_read_bit",
+    "body": [
+      "READ_BIT(${1:USART2}->${2:SR}, ${3:USART_SR_RXNE});$0"
+    ],
+    "description": "Read bit value from a peripheral register"
+  },
+  "CMSIS Register Modify Bit": {
+    "prefix": "cmsis_modify_reg",
+    "body": [
+      "MODIFY_REG(${1:USART2}->${2:CR1}, ${3:CLEAR_MASK}, ${4:SET_MASK});$0"
+    ],
+    "description": "Atomically clear mask and set new bits in a register"
+  },
+  "CMSIS DWT Cycle Counter Init": {
+    "prefix": "cmsis_dwt_enable",
+    "body": [
+      "CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;",
+      "DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;",
+      "DWT->CYCCNT = 0;$0"
+    ],
+    "description": "Enable ARM Cortex-M DWT high-resolution CPU cycle counter for microsecond delays/benchmarking"
+  },
+  "CMSIS DWT Microsecond Delay": {
+    "prefix": "cmsis_delay_us",
+    "body": [
+      "void delay_us(uint32_t us) {",
+      "    uint32_t start = DWT->CYCCNT;",
+      "    uint32_t ticks = us * (SystemCoreClock / 1000000UL);",
+      "    while ((DWT->CYCCNT - start) < ticks);",
+      "}$0"
+    ],
+    "description": "Accurate non-blocking microsecond delay function using Cortex-M DWT counter"
+  },
+  "CMSIS System Reset": {
+    "prefix": "cmsis_system_reset",
+    "body": [
+      "__NVIC_SystemReset();$0"
+    ],
+    "description": "Initiate Cortex-M software system reset via SCB->AIRCR"
+  }
+}

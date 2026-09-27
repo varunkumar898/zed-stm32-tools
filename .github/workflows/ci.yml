@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  check-and-test:
+    name: Rust Checks & Test Suite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-wasip2
+          components: rustfmt, clippy
+
+      - name: Rustfmt Check
+        run: cargo fmt --check
+
+      - name: Clippy Linter
+        run: cargo clippy --all-targets -- -D warnings
+
+      - name: Unit & Integration Tests (Host)
+        run: cargo test
+
+      - name: Build WebAssembly Component
+        run: cargo build --target wasm32-wasip2 --release
+
+  validate-schemas:
+    name: Validate Manifest & JSON Schemas
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Python & JQ
+        run: sudo apt-get update && sudo apt-get install -y jq python3
+
+      - name: Validate extension.toml
+        run: |
+          python3 -c "
+          import tomllib
+          with open('extension.toml', 'rb') as f:
+              data = tomllib.load(f)
+          assert 'id' in data, 'Missing extension id'
+          assert 'name' in data, 'Missing extension name'
+          assert 'version' in data, 'Missing extension version'
+          assert 'schema_version' in data, 'Missing schema_version'
+          print('extension.toml is valid!')
+          "
+
+      - name: Validate JSON Files
+        run: |
+          for f in tasks/*.json debug/*.json snippets/*.json; do
+            echo "Checking $f..."
+            jq . "$f" > /dev/null
+          done
+          echo "All JSON files are valid syntax!"
+
+      - name: Shellcheck Scripts
+        run: |
+          sudo apt-get install -y shellcheck
+          shellcheck scripts/*.sh

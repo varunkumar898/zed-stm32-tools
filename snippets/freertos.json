@@ -1,0 +1,99 @@
+{
+  "FreeRTOS Task Create": {
+    "prefix": "fr_task_create",
+    "body": [
+      "BaseType_t status = xTaskCreate(",
+      "    ${1:TaskFunction},",
+      "    \"${2:TaskName}\",",
+      "    ${3:configMINIMAL_STACK_SIZE * 2},",
+      "    ${4:NULL},",
+      "    ${5:tskIDLE_PRIORITY + 1},",
+      "    ${6:&xTaskHandle}",
+      ");",
+      "if (status != pdPASS) {",
+      "    /* Error handling */",
+      "}$0"
+    ],
+    "description": "Create a new FreeRTOS task dynamically"
+  },
+  "FreeRTOS Task Function Definition": {
+    "prefix": "fr_task_func",
+    "body": [
+      "void ${1:TaskFunction}(void *argument) {",
+      "    /* Initialize task resources */",
+      "    for (;;) {",
+      "        $0",
+      "        vTaskDelay(pdMS_TO_TICKS(${2:100}));",
+      "    }",
+      "}"
+    ],
+    "description": "Standard FreeRTOS task function loop"
+  },
+  "FreeRTOS Task Delay Until": {
+    "prefix": "fr_delay_until",
+    "body": [
+      "TickType_t xLastWakeTime = xTaskGetTickCount();",
+      "const TickType_t xFrequency = pdMS_TO_TICKS(${1:100});",
+      "vTaskDelayUntil(&xLastWakeTime, xFrequency);$0"
+    ],
+    "description": "Accurate periodic FreeRTOS task delay with vTaskDelayUntil"
+  },
+  "FreeRTOS Queue Create": {
+    "prefix": "fr_queue_create",
+    "body": [
+      "QueueHandle_t ${1:xQueue} = xQueueCreate(${2:10}, sizeof(${3:uint32_t}));",
+      "if (${1:xQueue} == NULL) {",
+      "    /* Queue creation failed */",
+      "}$0"
+    ],
+    "description": "Create a FreeRTOS message queue"
+  },
+  "FreeRTOS Queue Send": {
+    "prefix": "fr_queue_send",
+    "body": [
+      "if (xQueueSend(${1:xQueue}, &${2:item}, pdMS_TO_TICKS(${3:100})) != pdPASS) {",
+      "    /* Queue full timeout */",
+      "}$0"
+    ],
+    "description": "Post an item to a FreeRTOS queue"
+  },
+  "FreeRTOS Queue Receive": {
+    "prefix": "fr_queue_receive",
+    "body": [
+      "if (xQueueReceive(${1:xQueue}, &${2:received_item}, pdMS_TO_TICKS(${3:100})) == pdPASS) {",
+      "    $0",
+      "}"
+    ],
+    "description": "Receive an item from a FreeRTOS queue"
+  },
+  "FreeRTOS Binary Semaphore Create": {
+    "prefix": "fr_sem_create",
+    "body": [
+      "SemaphoreHandle_t ${1:xSemaphore} = xSemaphoreCreateBinary();",
+      "if (${1:xSemaphore} == NULL) {",
+      "    /* Creation failed */",
+      "}$0"
+    ],
+    "description": "Create a binary semaphore"
+  },
+  "FreeRTOS Semaphore Take": {
+    "prefix": "fr_sem_take",
+    "body": [
+      "if (xSemaphoreTake(${1:xSemaphore}, pdMS_TO_TICKS(${2:100})) == pdTRUE) {",
+      "    /* Access shared resource */",
+      "    $0",
+      "    xSemaphoreGive(${1:xSemaphore});",
+      "}"
+    ],
+    "description": "Obtain a semaphore lock with timeout"
+  },
+  "FreeRTOS Semaphore Give from ISR": {
+    "prefix": "fr_sem_give_isr",
+    "body": [
+      "BaseType_t xHigherPriorityTaskWoken = pdFALSE;",
+      "xSemaphoreGiveFromISR(${1:xSemaphore}, &xHigherPriorityTaskWoken);",
+      "portYIELD_FROM_ISR(xHigherPriorityTaskWoken);$0"
+    ],
+    "description": "Give a semaphore from within an Interrupt Service Routine (ISR)"
+  }
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "label": "STM32: Debug with probe-rs",
+    "adapter": "probe-rs",
+    "request": "launch",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "program": "$ZED_WORKTREE_ROOT/build/firmware.elf",
+    "chip": "STM32F401RETx",
+    "connectUnderReset": true,
+    "svdFile": "$ZED_WORKTREE_ROOT/svd/STM32F401.svd"
+  },
+  {
+    "label": "STM32: Debug with GDB & OpenOCD",
+    "adapter": "gdb",
+    "request": "launch",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "program": "$ZED_WORKTREE_ROOT/build/firmware.elf",
+    "server": "localhost:3333",
+    "gdbpath": "arm-none-eabi-gdb",
+    "openocdConfig": [
+      "-f", "interface/stlink.cfg",
+      "-f", "target/stm32f4x.cfg"
+    ]
+  },
+  {
+    "label": "STM32: Attach to Target (GDB)",
+    "adapter": "gdb",
+    "request": "attach",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "program": "$ZED_WORKTREE_ROOT/build/firmware.elf",
+    "server": "localhost:3333",
+    "gdbpath": "arm-none-eabi-gdb"
+  }
+]

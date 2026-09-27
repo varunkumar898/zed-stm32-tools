@@ -1,0 +1,21 @@
+[package]
+name = "stm32-zed"
+version = "0.1.0"
+edition = "2021"
+authors = ["Cherry <cherry@example.com>"]
+description = "STM32 development extension for Zed: project creation, CubeMX workflow, toolchain diagnostics, build tasks, flashing, and debugging."
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/cherry/zed-stm32-tools"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+zed_extension_api = "0.7.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+regex = "1.10"
+toml = "0.8"
+
+[dev-dependencies]
+tempfile = "3.10"

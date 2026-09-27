@@ -1,0 +1,22 @@
+id = "stm32-tools"
+name = "STM32 Tools"
+version = "0.1.0"
+schema_version = 1
+authors = ["Cherry <cherry@example.com>"]
+description = "STM32 embedded development environment for Zed: project creation, CubeMX workflow, toolchain diagnostics, build tasks, flashing, and debugging."
+repository = "https://github.com/cherry/zed-stm32-tools"
+
+[slash_commands.stm32-doctor]
+description = "Check STM32 toolchain and software dependencies"
+tooltip_text = "Run diagnostic check for Arm GCC, CubeMX, CubeProgrammer, OpenOCD, probe-rs, and build tools"
+requires_argument = false
+
+[slash_commands.stm32-info]
+description = "Show STM32 project information"
+tooltip_text = "Inspects .ioc, linker scripts, and build system configuration in the current worktree"
+requires_argument = false
+
+[slash_commands.stm32-device]
+description = "Search STM32 device database"
+tooltip_text = "Queries specifications for STM32 MCUs (memory, core, peripherals, OpenOCD target)"
+requires_argument = true

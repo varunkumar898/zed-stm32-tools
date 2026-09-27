@@ -1,0 +1,97 @@
+[
+  {
+    "label": "STM32: Build",
+    "command": "./scripts/build.sh",
+    "args": ["build"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "STM32: Clean",
+    "command": "./scripts/build.sh",
+    "args": ["clean"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "STM32: Rebuild",
+    "command": "sh",
+    "args": ["-c", "./scripts/build.sh clean && ./scripts/build.sh build"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "STM32: Memory Usage",
+    "command": "./scripts/build.sh",
+    "args": ["size"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "STM32: Flash and Run",
+    "command": "./scripts/flash.sh",
+    "args": ["flash-run"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "STM32: Flash Only",
+    "command": "./scripts/flash.sh",
+    "args": ["flash"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "STM32: Reset Target",
+    "command": "./scripts/flash.sh",
+    "args": ["reset"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "STM32: Detect ST-LINK",
+    "command": "./scripts/flash.sh",
+    "args": ["detect"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "STM32: Erase (Full Chip)",
+    "command": "./scripts/flash.sh",
+    "args": ["erase"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "STM32: Toolchain Doctor",
+    "command": "./scripts/doctor.sh",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "STM32: Open CubeMX",
+    "command": "./scripts/cubemx.sh",
+    "args": ["open"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "STM32: Generate Code (CubeMX)",
+    "command": "./scripts/cubemx.sh",
+    "args": ["generate"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  }
+]
