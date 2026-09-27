@@ -1,0 +1,432 @@
+{
+  "HAL GPIO Output Config": {
+    "prefix": "hal_gpio_out",
+    "body": [
+      "GPIO_InitTypeDef GPIO_InitStruct = {0};",
+      "__HAL_RCC_${1:GPIOA}_CLK_ENABLE();",
+      "HAL_GPIO_WritePin(${1:GPIOA}, ${2:GPIO_PIN_5}, GPIO_PIN_RESET);",
+      "GPIO_InitStruct.Pin = ${2:GPIO_PIN_5};",
+      "GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;",
+      "GPIO_InitStruct.Pull = GPIO_NOPULL;",
+      "GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;",
+      "HAL_GPIO_Init(${1:GPIOA}, &GPIO_InitStruct);$0"
+    ],
+    "description": "Initialize an STM32 GPIO pin in Push-Pull Output mode"
+  },
+  "HAL GPIO Input Config": {
+    "prefix": "hal_gpio_in",
+    "body": [
+      "GPIO_InitTypeDef GPIO_InitStruct = {0};",
+      "__HAL_RCC_${1:GPIOC}_CLK_ENABLE();",
+      "GPIO_InitStruct.Pin = ${2:GPIO_PIN_13};",
+      "GPIO_InitStruct.Mode = GPIO_MODE_INPUT;",
+      "GPIO_InitStruct.Pull = ${3|GPIO_NOPULL,GPIO_PULLUP,GPIO_PULLDOWN|};",
+      "HAL_GPIO_Init(${1:GPIOC}, &GPIO_InitStruct);$0"
+    ],
+    "description": "Initialize an STM32 GPIO pin in Input mode"
+  },
+  "HAL GPIO Write Pin": {
+    "prefix": "hal_gpio_write",
+    "body": [
+      "HAL_GPIO_WritePin(${1:GPIOA}, ${2:GPIO_PIN_5}, ${3|GPIO_PIN_SET,GPIO_PIN_RESET|});$0"
+    ],
+    "description": "Write state to a GPIO pin"
+  },
+  "HAL GPIO Toggle Pin": {
+    "prefix": "hal_gpio_toggle",
+    "body": [
+      "HAL_GPIO_TogglePin(${1:GPIOA}, ${2:GPIO_PIN_5});$0"
+    ],
+    "description": "Toggle the logic state of a GPIO pin"
+  },
+  "HAL GPIO Read Pin": {
+    "prefix": "hal_gpio_read",
+    "body": [
+      "GPIO_PinState ${1:state} = HAL_GPIO_ReadPin(${2:GPIOA}, ${3:GPIO_PIN_0});$0"
+    ],
+    "description": "Read the current logic state of a GPIO pin"
+  },
+  "HAL UART Polling Transmit": {
+    "prefix": "hal_uart_tx",
+    "body": [
+      "HAL_UART_Transmit(&${1:huart2}, (uint8_t *)${2:buf}, ${3:len}, ${4:HAL_MAX_DELAY});$0"
+    ],
+    "description": "Transmit data over UART in blocking mode"
+  },
+  "HAL UART Polling Receive": {
+    "prefix": "hal_uart_rx",
+    "body": [
+      "HAL_UART_Receive(&${1:huart2}, (uint8_t *)${2:buf}, ${3:len}, ${4:1000});$0"
+    ],
+    "description": "Receive data over UART in blocking mode"
+  },
+  "HAL UART Interrupt Transmit": {
+    "prefix": "hal_uart_tx_it",
+    "body": [
+      "HAL_UART_Transmit_IT(&${1:huart2}, (uint8_t *)${2:buf}, ${3:len});$0"
+    ],
+    "description": "Start non-blocking UART transmission with interrupts"
+  },
+  "HAL UART Interrupt Receive": {
+    "prefix": "hal_uart_rx_it",
+    "body": [
+      "HAL_UART_Receive_IT(&${1:huart2}, (uint8_t *)${2:buf}, ${3:len});$0"
+    ],
+    "description": "Start non-blocking UART reception with interrupts"
+  },
+  "HAL UART DMA Transmit": {
+    "prefix": "hal_uart_tx_dma",
+    "body": [
+      "HAL_UART_Transmit_DMA(&${1:huart2}, (uint8_t *)${2:buf}, ${3:len});$0"
+    ],
+    "description": "Start non-blocking UART transmission with DMA"
+  },
+  "HAL UART DMA Receive": {
+    "prefix": "hal_uart_rx_dma",
+    "body": [
+      "HAL_UART_Receive_DMA(&${1:huart2}, (uint8_t *)${2:buf}, ${3:len});$0"
+    ],
+    "description": "Start non-blocking UART reception with DMA"
+  },
+  "HAL SPI Transmit/Receive": {
+    "prefix": "hal_spi_txrx",
+    "body": [
+      "HAL_GPIO_WritePin(${1:CS_GPIO_Port}, ${2:CS_Pin}, GPIO_PIN_RESET);",
+      "HAL_SPI_TransmitReceive(&${3:hspi1}, ${4:tx_buf}, ${5:rx_buf}, ${6:size}, ${7:1000});",
+      "HAL_GPIO_WritePin(${1:CS_GPIO_Port}, ${2:CS_Pin}, GPIO_PIN_SET);$0"
+    ],
+    "description": "SPI blocking full-duplex transfer with CS toggle"
+  },
+  "HAL I2C Master Transmit": {
+    "prefix": "hal_i2c_tx",
+    "body": [
+      "HAL_I2C_Master_Transmit(&${1:hi2c1}, ${2:dev_addr} << 1, ${3:pData}, ${4:size}, ${5:1000});$0"
+    ],
+    "description": "I2C master blocking transmit"
+  },
+  "HAL I2C Master Receive": {
+    "prefix": "hal_i2c_rx",
+    "body": [
+      "HAL_I2C_Master_Receive(&${1:hi2c1}, ${2:dev_addr} << 1, ${3:pData}, ${4:size}, ${5:1000});$0"
+    ],
+    "description": "I2C master blocking receive"
+  },
+  "HAL I2C Memory Read": {
+    "prefix": "hal_i2c_mem_read",
+    "body": [
+      "HAL_I2C_Mem_Read(&${1:hi2c1}, ${2:dev_addr} << 1, ${3:mem_addr}, ${4:I2C_MEMADD_SIZE_8BIT}, ${5:pData}, ${6:size}, ${7:1000});$0"
+    ],
+    "description": "Read registers/EEPROM memory over I2C"
+  },
+  "HAL Timer Base Start": {
+    "prefix": "hal_tim_start",
+    "body": [
+      "HAL_TIM_Base_Start(&${1:htim2});$0"
+    ],
+    "description": "Start a timer in continuous counting mode"
+  },
+  "HAL Timer Base Start Interrupt": {
+    "prefix": "hal_tim_start_it",
+    "body": [
+      "HAL_TIM_Base_Start_IT(&${1:htim2});$0"
+    ],
+    "description": "Start timer base with period elapsed interrupt"
+  },
+  "HAL Timer PWM Start": {
+    "prefix": "hal_tim_pwm_start",
+    "body": [
+      "HAL_TIM_PWM_Start(&${1:htim3}, ${2:TIM_CHANNEL_1});",
+      "__HAL_TIM_SET_COMPARE(&${1:htim3}, ${2:TIM_CHANNEL_1}, ${3:duty_cycle});$0"
+    ],
+    "description": "Start PWM output on a timer channel"
+  },
+  "HAL ADC Single Conversion": {
+    "prefix": "hal_adc_read",
+    "body": [
+      "HAL_ADC_Start(&${1:hadc1});",
+      "if (HAL_ADC_PollForConversion(&${1:hadc1}, ${2:100}) == HAL_OK) {",
+      "    uint32_t ${3:raw_val} = HAL_ADC_GetValue(&${1:hadc1});$0",
+      "}",
+      "HAL_ADC_Stop(&${1:hadc1});"
+    ],
+    "description": "Trigger single ADC conversion and read value"
+  },
+  "HAL ADC Start DMA": {
+    "prefix": "hal_adc_start_dma",
+    "body": [
+      "HAL_ADC_Start_DMA(&${1:hadc1}, (uint32_t *)${2:adc_buffer}, ${3:CHANNEL_COUNT});$0"
+    ],
+    "description": "Start continuous ADC regular conversions using DMA circular buffer"
+  },
+  "HAL EXTI GPIO Callback": {
+    "prefix": "hal_exti_callback",
+    "body": [
+      "void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {",
+      "    if (GPIO_Pin == ${1:USER_BUTTON_Pin}) {",
+      "        $0",
+      "    }",
+      "}"
+    ],
+    "description": "External interrupt (EXTI) GPIO pin change callback"
+  },
+  "HAL UART Rx Callback": {
+    "prefix": "hal_uart_rx_callback",
+    "body": [
+      "void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {",
+      "    if (huart->Instance == ${1:USART2}) {",
+      "        $0",
+      "    }",
+      "}"
+    ],
+    "description": "UART receive complete callback handler"
+  },
+  "HAL Timer Period Elapsed Callback": {
+    "prefix": "hal_tim_period_callback",
+    "body": [
+      "void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {",
+      "    if (htim->Instance == ${1:TIM2}) {",
+      "        $0",
+      "    }",
+      "}"
+    ],
+    "description": "Timer period elapsed (update interrupt) callback handler"
+  },
+  "CMSIS NVIC Enable Interrupt": {
+    "prefix": "cmsis_nvic_enable",
+    "body": [
+      "NVIC_SetPriority(${1:USART2_IRQn}, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), ${2:0}, ${3:0}));",
+      "NVIC_EnableIRQ(${1:USART2_IRQn});$0"
+    ],
+    "description": "Configure priority and enable an IRQ via CMSIS NVIC"
+  },
+  "CMSIS NVIC Disable Interrupt": {
+    "prefix": "cmsis_nvic_disable",
+    "body": [
+      "NVIC_DisableIRQ(${1:USART2_IRQn});",
+      "NVIC_ClearPendingIRQ(${1:USART2_IRQn});$0"
+    ],
+    "description": "Disable and clear pending state for an IRQ via CMSIS NVIC"
+  },
+  "CMSIS Register Set Bit": {
+    "prefix": "cmsis_set_bit",
+    "body": [
+      "SET_BIT(${1:USART2}->${2:CR1}, ${3:USART_CR1_UE});$0"
+    ],
+    "description": "Set a specific bit in a peripheral register using CMSIS macro"
+  },
+  "CMSIS Register Clear Bit": {
+    "prefix": "cmsis_clear_bit",
+    "body": [
+      "CLEAR_BIT(${1:USART2}->${2:CR1}, ${3:USART_CR1_UE});$0"
+    ],
+    "description": "Clear a specific bit in a peripheral register using CMSIS macro"
+  },
+  "CMSIS Register Read Bit": {
+    "prefix": "cmsis_read_bit",
+    "body": [
+      "READ_BIT(${1:USART2}->${2:SR}, ${3:USART_SR_RXNE});$0"
+    ],
+    "description": "Read bit value from a peripheral register"
+  },
+  "CMSIS Register Modify Bit": {
+    "prefix": "cmsis_modify_reg",
+    "body": [
+      "MODIFY_REG(${1:USART2}->${2:CR1}, ${3:CLEAR_MASK}, ${4:SET_MASK});$0"
+    ],
+    "description": "Atomically clear mask and set new bits in a register"
+  },
+  "CMSIS DWT Cycle Counter Init": {
+    "prefix": "cmsis_dwt_enable",
+    "body": [
+      "CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;",
+      "DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;",
+      "DWT->CYCCNT = 0;$0"
+    ],
+    "description": "Enable ARM Cortex-M DWT high-resolution CPU cycle counter for microsecond delays/benchmarking"
+  },
+  "CMSIS DWT Microsecond Delay": {
+    "prefix": "cmsis_delay_us",
+    "body": [
+      "void delay_us(uint32_t us) {",
+      "    uint32_t start = DWT->CYCCNT;",
+      "    uint32_t ticks = us * (SystemCoreClock / 1000000UL);",
+      "    while ((DWT->CYCCNT - start) < ticks);",
+      "}$0"
+    ],
+    "description": "Accurate non-blocking microsecond delay function using Cortex-M DWT counter"
+  },
+  "CMSIS System Reset": {
+    "prefix": "cmsis_system_reset",
+    "body": [
+      "__NVIC_SystemReset();$0"
+    ],
+    "description": "Initiate Cortex-M software system reset via SCB->AIRCR"
+  },
+  "FreeRTOS Task Create": {
+    "prefix": "fr_task_create",
+    "body": [
+      "BaseType_t status = xTaskCreate(",
+      "    ${1:TaskFunction},",
+      "    \"${2:TaskName}\",",
+      "    ${3:configMINIMAL_STACK_SIZE * 2},",
+      "    ${4:NULL},",
+      "    ${5:tskIDLE_PRIORITY + 1},",
+      "    ${6:&xTaskHandle}",
+      ");",
+      "if (status != pdPASS) {",
+      "    /* Error handling */",
+      "}$0"
+    ],
+    "description": "Create a new FreeRTOS task dynamically"
+  },
+  "FreeRTOS Task Function Definition": {
+    "prefix": "fr_task_func",
+    "body": [
+      "void ${1:TaskFunction}(void *argument) {",
+      "    /* Initialize task resources */",
+      "    for (;;) {",
+      "        $0",
+      "        vTaskDelay(pdMS_TO_TICKS(${2:100}));",
+      "    }",
+      "}"
+    ],
+    "description": "Standard FreeRTOS task function loop"
+  },
+  "FreeRTOS Task Delay Until": {
+    "prefix": "fr_delay_until",
+    "body": [
+      "TickType_t xLastWakeTime = xTaskGetTickCount();",
+      "const TickType_t xFrequency = pdMS_TO_TICKS(${1:100});",
+      "vTaskDelayUntil(&xLastWakeTime, xFrequency);$0"
+    ],
+    "description": "Accurate periodic FreeRTOS task delay with vTaskDelayUntil"
+  },
+  "FreeRTOS Queue Create": {
+    "prefix": "fr_queue_create",
+    "body": [
+      "QueueHandle_t ${1:xQueue} = xQueueCreate(${2:10}, sizeof(${3:uint32_t}));",
+      "if (${1:xQueue} == NULL) {",
+      "    /* Queue creation failed */",
+      "}$0"
+    ],
+    "description": "Create a FreeRTOS message queue"
+  },
+  "FreeRTOS Queue Send": {
+    "prefix": "fr_queue_send",
+    "body": [
+      "if (xQueueSend(${1:xQueue}, &${2:item}, pdMS_TO_TICKS(${3:100})) != pdPASS) {",
+      "    /* Queue full timeout */",
+      "}$0"
+    ],
+    "description": "Post an item to a FreeRTOS queue"
+  },
+  "FreeRTOS Queue Receive": {
+    "prefix": "fr_queue_receive",
+    "body": [
+      "if (xQueueReceive(${1:xQueue}, &${2:received_item}, pdMS_TO_TICKS(${3:100})) == pdPASS) {",
+      "    $0",
+      "}"
+    ],
+    "description": "Receive an item from a FreeRTOS queue"
+  },
+  "FreeRTOS Binary Semaphore Create": {
+    "prefix": "fr_sem_create",
+    "body": [
+      "SemaphoreHandle_t ${1:xSemaphore} = xSemaphoreCreateBinary();",
+      "if (${1:xSemaphore} == NULL) {",
+      "    /* Creation failed */",
+      "}$0"
+    ],
+    "description": "Create a binary semaphore"
+  },
+  "FreeRTOS Semaphore Take": {
+    "prefix": "fr_sem_take",
+    "body": [
+      "if (xSemaphoreTake(${1:xSemaphore}, pdMS_TO_TICKS(${2:100})) == pdTRUE) {",
+      "    /* Access shared resource */",
+      "    $0",
+      "    xSemaphoreGive(${1:xSemaphore});",
+      "}"
+    ],
+    "description": "Obtain a semaphore lock with timeout"
+  },
+  "FreeRTOS Semaphore Give from ISR": {
+    "prefix": "fr_sem_give_isr",
+    "body": [
+      "BaseType_t xHigherPriorityTaskWoken = pdFALSE;",
+      "xSemaphoreGiveFromISR(${1:xSemaphore}, &xHigherPriorityTaskWoken);",
+      "portYIELD_FROM_ISR(xHigherPriorityTaskWoken);$0"
+    ],
+    "description": "Give a semaphore from within an Interrupt Service Routine (ISR)"
+  },
+  "STM32 Bare-Metal Register LED Toggle": {
+    "prefix": "stm32_reg_toggle",
+    "body": [
+      "/* Enable GPIO Port Clock */",
+      "RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;",
+      "/* Configure Pin as General Purpose Output */",
+      "GPIOA->MODER &= ~(3U << (5 * 2));",
+      "GPIOA->MODER |=  (1U << (5 * 2));",
+      "/* Toggle Pin in loop */",
+      "GPIOA->ODR ^= (1U << 5);$0"
+    ],
+    "description": "Direct bare-metal register manipulation for GPIO output toggle (e.g. PA5 LED on Nucleo)"
+  },
+  "STM32 User Code Guard Block": {
+    "prefix": "stm32_user_code",
+    "body": [
+      "/* USER CODE BEGIN ${1:1} */",
+      "$0",
+      "/* USER CODE END ${1:1} */"
+    ],
+    "description": "Insert CubeMX protected User Code block"
+  },
+  "STM32 System Clock 84MHz HSE": {
+    "prefix": "stm32_clk_84mhz",
+    "body": [
+      "void SystemClock_Config(void) {",
+      "    RCC_OscInitTypeDef RCC_OscInitStruct = {0};",
+      "    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};",
+      "",
+      "    __HAL_RCC_PWR_CLK_ENABLE();",
+      "    __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);",
+      "",
+      "    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;",
+      "    RCC_OscInitStruct.HSEState = RCC_HSE_ON;",
+      "    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;",
+      "    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;",
+      "    RCC_OscInitStruct.PLL.PLLM = 8;",
+      "    RCC_OscInitStruct.PLL.PLLN = 336;",
+      "    RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;",
+      "    RCC_OscInitStruct.PLL.PLLQ = 7;",
+      "    HAL_RCC_OscConfig(&RCC_OscInitStruct);",
+      "",
+      "    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK",
+      "                                | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;",
+      "    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;",
+      "    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;",
+      "    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;",
+      "    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;",
+      "    HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2);",
+      "}$0"
+    ],
+    "description": "Configure STM32F4 System Clock to 84MHz from 8MHz HSE Crystal"
+  },
+  "STM32 HardFault Handler Diagnostics": {
+    "prefix": "stm32_hardfault_handler",
+    "body": [
+      "void HardFault_Handler(void) {",
+      "    __asm volatile (",
+      "        \" tst lr, #4            \\n\"",
+      "        \" ite eq                 \\n\"",
+      "        \" mrseq r0, msp          \\n\"",
+      "        \" mrsne r0, psp          \\n\"",
+      "        \" ldr r1, [r0, #24]      \\n\"",
+      "        \" bkpt #0                \\n\"",
+      "    );",
+      "    while (1) {}",
+      "}$0"
+    ],
+    "description": "Detailed Cortex-M HardFault exception handler that captures fault PC into R1 and halts in debugger"
+  }
+}
